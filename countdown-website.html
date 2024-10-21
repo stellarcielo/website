@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11月29日までのカウントダウン</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        #current-time {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        #countdown {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 5px;
+            font-size: 1em;
+            margin-bottom: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        .timezone-select {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="current-time"></div>
+        <div class="timezone-select">
+            <label for="local-timezone-select">現地のタイムゾーン:</label>
+            <select id="local-timezone-select"></select>
+        </div>
+        <h1>11月29日までのカウントダウン(ブラックフライデー)</h1>
+        <div id="countdown"></div>
+        <div class="timezone-select">
+            <label for="countdown-timezone-select">カウントダウンのタイムゾーン:</label>
+            <select id="countdown-timezone-select"></select>
+        </div>
+    </div>
+
+    <script>
+        const timezones = [
+            {value: -720, label: "日付変更線西側（UTC-12:00）"},
+            {value: -660, label: "サモア時間（UTC-11:00）"},
+            {value: -600, label: "ハワイ標準時（UTC-10:00）"},
+            {value: -540, label: "アラスカ標準時（UTC-09:00）"},
+            {value: -480, label: "太平洋標準時（UTC-08:00）"},
+            {value: -420, label: "山地標準時（UTC-07:00）"},
+            {value: -360, label: "中部標準時（UTC-06:00）"},
+            {value: -300, label: "東部標準時（UTC-05:00）"},
+            {value: -240, label: "大西洋標準時（UTC-04:00）"},
+            {value: -180, label: "ブラジリア時間（UTC-03:00）"},
+            {value: -120, label: "南ジョージア・南サンドイッチ諸島時間（UTC-02:00）"},
+            {value: -60, label: "アゾレス時間（UTC-01:00）"},
+            {value: 0, label: "協定世界時（UTC）"},
+            {value: 60, label: "中央ヨーロッパ時間（UTC+01:00）"},
+            {value: 120, label: "東ヨーロッパ時間（UTC+02:00）"},
+            {value: 180, label: "モスクワ時間（UTC+03:00）"},
+            {value: 240, label: "ドバイ時間（UTC+04:00）"},
+            {value: 300, label: "パキスタン時間（UTC+05:00）"},
+            {value: 360, label: "バングラデシュ標準時（UTC+06:00）"},
+            {value: 420, label: "インドシナ時間（UTC+07:00）"},
+            {value: 480, label: "中国標準時（UTC+08:00）"},
+            {value: 540, label: "日本標準時（UTC+09:00）"},
+            {value: 600, label: "オーストラリア東部標準時（UTC+10:00）"},
+            {value: 660, label: "ソロモン諸島時間（UTC+11:00）"},
+            {value: 720, label: "ニュージーランド標準時（UTC+12:00）"}
+        ];
+
+        function populateTimezoneSelect(selectId, defaultValue) {
+            const select = document.getElementById(selectId);
+            timezones.forEach(tz => {
+                const option = document.createElement('option');
+                option.value = tz.value;
+                option.textContent = tz.label;
+                select.appendChild(option);
+            });
+            select.value = defaultValue;
+        }
+
+        populateTimezoneSelect('local-timezone-select', 540); // デフォルトは日本標準時
+        populateTimezoneSelect('countdown-timezone-select', 540);
+
+        function updateTime() {
+            const now = new Date();
+            const localTimezoneOffset = parseInt(document.getElementById('local-timezone-select').value);
+            const localTime = new Date(now.getTime() + (now.getTimezoneOffset() + localTimezoneOffset) * 60000);
+            
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                timeZone: 'UTC',
+                hour12: false 
+            };
+            const timeString = localTime.toLocaleString('ja-JP', options);
+            const timezoneString = `UTC${localTimezoneOffset >= 0 ? '+' : '-'}${Math.abs(localTimezoneOffset / 60).toString().padStart(2, '0')}:${(Math.abs(localTimezoneOffset) % 60).toString().padStart(2, '0')}`;
+            
+            document.getElementById('current-time').innerHTML = `現在時刻: ${timeString} (${timezoneString})`;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date(2024, 10, 29, 0, 0, 0); // 11月は10（0から始まるため）
+            const countdownTimezoneOffset = parseInt(document.getElementById('countdown-timezone-select').value);
+            
+            const userTime = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+            const targetTime = new Date(target.getTime() + (target.getTimezoneOffset() + countdownTimezoneOffset) * 60000);
+            
+            const difference = targetTime - userTime;
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = 
+                `${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
+        }
+
+        function update() {
+            updateTime();
+            updateCountdown();
+        }
+
+        document.getElementById('local-timezone-select').addEventListener('change', update);
+        document.getElementById('countdown-timezone-select').addEventListener('change', update);
+        setInterval(update, 1000);
+        update(); // 初回実行
+    </script>
+</body>
+</html>

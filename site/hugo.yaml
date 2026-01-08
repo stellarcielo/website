@@ -4,3 +4,80 @@ title: "Home"
 
 theme: ["PaperMod"] # Hugoテーマの設定
 
+menu:
+  main:
+    - identifer: about
+      name: about
+      url: about/
+      weight: 10
+    - identifer: status
+      name: status
+      url: https://status.stellarcielo.com/
+      weight: 20
+
+env: production # to enable google analytics, opengraph, twitter-cards and schema.
+title: "タイトル"
+description: "ExampleSite description"
+keywords: [Blog, Portfolio, PaperMod]
+author: Me
+# author: ["Me", "You"] # multiple authors
+images: ["<link or path of image for opengraph, twitter-cards>"]
+DateFormat: "January 2, 2006" # 記事作成日
+defaultTheme: dark # ページのテーマ設定 "dark", "light"も決められる
+disableThemeToggle: true # dark/light の変更ボタンを表示するかどうか
+
+ShowReadingTime: false      # 各記事の読み終わるまでの時間を表記するかどうか
+ShowShareButtons: false    # 各記事の下部に表示するshareボタンの表示の有無
+ShowPostNavLinks: false     # 前後のポストへのNavigationを表示するかどうか
+ShowBreadCrumbs: false      # 各記事の階層関係を表示するかどうか
+ShowCodeCopyButtons: true # 記事内のコードをコピーするボタンを表示するかどうか
+ShowWordCount: false        # 各記事の文字数を表記するかどうか
+ShowRssButtonInSectionTermList: true # RSSボタンの表示の有無
+UseHugoToc: true # 
+disableSpecial1stPost: false # スペシャル記事の表示有無
+disableScrollToTop: true # 最上部へのスクロールボタンの表示の有無
+comments: true # コメントを記事に表示するかどうか
+hidemeta: false # Search対象から各記事のmeta情報を隠すかどうか
+hideSummary: false # Search対象から各記事のSummaryを隠すかどうか (個別に隠すなら各記事でどうぞ)
+showtoc: true  # TOCを表示するかどうか
+tocopen: false # 初期で展開しておくかどうか
+
+label: # ヘッダー上部のタイトル情報
+  text: "Home"
+  icon: /apple-touch-icon.png
+  iconHeight: 35
+
+# profile-mode
+profileMode:
+  enabled: false # needs to be explicitly set
+  title: ExampleSite
+  subtitle: "This is subtitle"
+  imageUrl: "<img location>"
+  imageWidth: 120
+  imageHeight: 120
+  imageTitle: my image
+  buttons:
+    - name: Posts
+      url: posts
+    - name: Tags
+      url: tags
+
+# home-info mode
+homeInfoParams:
+  Title: "Welcome!! \U0001F44B"
+  Content: >
+    👋 勉強共有会へようこそ！！
+
+    - 現在、サイトを準備中です 😇
+
+    - それまでは過去の議事録を参照してください！！
+
+socialIcons: # ホーム画面に表示する各種サービスアイコン
+  - name: x
+    url: "https://x.com/"
+  - name: stackoverflow
+    url: "https://stackoverflow.com"
+  - name: github
+    url: "https://github.com/"
+  - name: discord
+    url: "https://discord.gg/"
